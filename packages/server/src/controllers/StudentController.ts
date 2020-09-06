@@ -1,8 +1,9 @@
 import { getConnection } from 'typeorm';
 import Student from '../models/Student';
+import { Request, Response } from 'express';
 
 export default class StudentController {
-  async create(request, response): Promise<void> {
+  async create(request: Request, response: Response): Promise<Response> {
     const {
       name,
       institution,
@@ -41,7 +42,7 @@ export default class StudentController {
       });
     };
   };
-  async show(request, response): Promise<void> {
+  async show(request: Request, response: Response): Promise<Response> {
     const { cd_student } = request.params;
 
     try {
@@ -51,7 +52,7 @@ export default class StudentController {
         .where('cd_student = :id', { id: cd_student })
         .getOne();
 
-      response.status(200).send({findStudent});
+      return response.status(200).send({findStudent});
     } catch (err) {
       console.log(err);
       response.status(400).send({
