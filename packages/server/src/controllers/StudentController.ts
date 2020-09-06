@@ -24,9 +24,10 @@ export default class StudentController {
         .createQueryBuilder()
         .insert()
         .into(Student)
-        .values({
+        .values(
           user
-        });
+        )
+        .execute();
 
       return response.status(201).send({
         succes: 'Registered successfully',
@@ -40,4 +41,23 @@ export default class StudentController {
       });
     };
   };
+  async show(request, response): Promise<void> {
+    const { cd_student } = request.params;
+
+    try {
+      const findStudent = await getConnection()
+        .getRepository(Student)
+        .createQueryBuilder('student')
+        .where('cd_student = :id', { id: cd_student })
+        .getOne();
+
+      response.status(200).send({findStudent});
+    } catch (err) {
+      console.log(err);
+      response.status(400).send({
+        error: 'Failed to create student',
+        message: err.sqlMessage,
+      });
+    }
+  }
 };
