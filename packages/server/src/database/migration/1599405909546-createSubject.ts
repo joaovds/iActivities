@@ -11,6 +11,7 @@ export default class createSubject1599405909546 implements MigrationInterface {
             type: 'integer',
             isPrimary: true,
             isUnique: true,
+            isGenerated: true,
             generationStrategy: 'increment',
           },
           {

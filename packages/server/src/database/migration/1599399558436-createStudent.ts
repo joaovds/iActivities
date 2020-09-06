@@ -11,6 +11,7 @@ export default class createStudent1599354240118 implements MigrationInterface {
             type: 'integer',
             isPrimary: true,
             isUnique: true,
+            isGenerated: true,
             generationStrategy: 'increment'
           },
           {
