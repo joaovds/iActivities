@@ -5,7 +5,7 @@
   "username": "root",
   "password": "",
   "database": "db_iActivities",
-  "synchronize": true,
+  "synchronize": false,
   "logging": false,
   "entities": ["src/models/**/*.ts"],
   "migrations": ["src/migration/**/*.ts"],
