@@ -1,5 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany} from 'typeorm';
 import Post from './Post';
+import Like from './Like';
 
 @Entity('student')
 export default class Student {
@@ -42,4 +43,7 @@ export default class Student {
 
   @OneToMany(() => Post, posts => posts.student)
   posts: Post[];
+
+  @OneToMany(() => Like, likes => likes.student)
+  likes: Like[];
 }

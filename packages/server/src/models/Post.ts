@@ -2,6 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColu
 import Student from './Student';
 import Subject from './Subject';
 import Response from './Response';
+import Like from './Like';
 
 @Entity('post')
 export default class Post {
@@ -32,4 +33,7 @@ export default class Post {
 
   @OneToMany(() => Response, responses => responses.post)
   responses: Response[];
+
+  @OneToMany(() => Like, likes => likes.post)
+  likes: Like[];
 }

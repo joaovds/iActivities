@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany} from 'typeorm';
 import Subject from './Subject';
+import Like from './Like';
 
 @Entity()
 export default class Teacher {
@@ -42,4 +43,7 @@ export default class Teacher {
 
   @ManyToOne(() => Subject, subject => subject.teachers)
   subject: Subject;
+
+  @OneToMany(() => Like, likes => likes.teacher)
+  likes: Like[];
 }
