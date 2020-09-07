@@ -83,4 +83,43 @@ export default class StudentController {
       });
     };
   };
+  async update(request: Request, response: Response): Promise<Response> {
+    const { cd_student } = request.params;
+
+    const {
+      name,
+      institution,
+      age,
+      email,
+      password
+    } = request.body;
+
+    const user = {
+      name,
+      institution,
+      age,
+      email,
+      password
+    };
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .update(Student)
+        .set(user)
+        .where('id = :id', { id: cd_student })
+        .execute();
+
+      return response.status(200).send({
+        success: `User with id ${cd_student} has been successfully updated`,
+        data: user,
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to create student',
+        message: err.sqlMessage,
+      });
+    }
+  };
 };
