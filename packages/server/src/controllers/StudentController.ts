@@ -49,7 +49,7 @@ export default class StudentController {
       const findStudent = await getConnection()
         .getRepository(Student)
         .createQueryBuilder('student')
-        .where('cd_student = :id', { id: cd_student })
+        .where('id = :id', { id: cd_student })
         .getOne();
 
       return response.status(200).send({findStudent});
