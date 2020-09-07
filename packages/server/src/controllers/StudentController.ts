@@ -59,6 +59,28 @@ export default class StudentController {
         error: 'Failed to create student',
         message: err.sqlMessage,
       });
-    }
-  }
+    };
+  };
+  async delete(request: Request, response: Response): Promise<Response> {
+    const { cd_student } = request.params;
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Student)
+        .where('id = :id', { id: cd_student })
+        .execute();
+
+      return response.status(200).send({
+        success: `User with id ${cd_student} has been successfully deleted`,
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to create student',
+        message: err.sqlMessage,
+      });
+    };
+  };
 };
