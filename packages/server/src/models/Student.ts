@@ -1,9 +1,10 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany} from 'typeorm';
+import Post from './Post';
 
 @Entity('student')
 export default class Student {
   @PrimaryGeneratedColumn('increment')
-  cd_student: number;
+  id: number;
 
   @Column({
     length: 100,
@@ -38,4 +39,7 @@ export default class Student {
 
   @UpdateDateColumn()
   updated_At: Date;
+
+  @OneToMany(() => Post, posts => posts.student)
+  posts: Post[];
 }

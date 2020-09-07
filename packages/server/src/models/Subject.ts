@@ -1,9 +1,10 @@
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
+import Post from './Post';
 
 @Entity('subject')
 export default class Subject {
   @PrimaryGeneratedColumn('increment')
-  cd_subject: number;
+  id: number;
 
   @Column({
     length: 100,
@@ -11,4 +12,7 @@ export default class Subject {
     unique: true
   })
   name: string;
+
+  @OneToMany(() => Post, posts => posts.subject)
+  posts: Post[];
 }
