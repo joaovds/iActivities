@@ -36,7 +36,7 @@ export default class StudentController {
       });
     } catch (err) {
       console.log(err);
-      response.status(400).send({
+      return response.status(400).send({
         error: 'Failed to create student',
         message: err.sqlMessage,
       });
@@ -55,7 +55,7 @@ export default class StudentController {
       return response.status(200).send({findStudent});
     } catch (err) {
       console.log(err);
-      response.status(400).send({
+      return response.status(400).send({
         error: 'Failed to create student',
         message: err.sqlMessage,
       });
