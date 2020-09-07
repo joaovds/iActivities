@@ -1,6 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany} from 'typeorm';
 import Student from './Student';
 import Subject from './Subject';
+import Response from './Response';
 
 @Entity('post')
 export default class Post {
@@ -28,4 +29,7 @@ export default class Post {
 
   @ManyToOne(() => Subject, subject => subject.posts)
   subject: Subject;
+
+  @OneToMany(() => Response, responses => responses.post)
+  responses: Response[];
 }
