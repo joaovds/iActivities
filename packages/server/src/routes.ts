@@ -14,5 +14,6 @@ routes.delete('/student/:cd_student', studentController.delete);
 routes.put('/student/:cd_student', studentController.update);
 
 routes.post('/teacher', teacherController.create);
+routes.get('/teacher/:cd_teacher', teacherController.show);
 
 export default routes;

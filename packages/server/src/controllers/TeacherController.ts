@@ -42,6 +42,25 @@ export default class TeacherController {
         error: 'Failed to create teacher',
         message: err.sqlMessage,
       });
-    }
+    };
   };
+  async show(request: Request, response: Response): Promise<Response> {
+    const { cd_teacher } = request.params;
+
+    try {
+      const findTeacher = await getConnection()
+        .getRepository(Teacher)
+        .createQueryBuilder('teacher')
+        .where('id = :id', { id: cd_teacher })
+        .getOne();
+
+      return response.status(200).send({findTeacher});
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to show teacher',
+        message: err.sqlMessage,
+      });
+    };
+  }
 };
