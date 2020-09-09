@@ -85,4 +85,45 @@ export default class TeacherController {
       });
     };
   };
+  async update(request: Request, response: Response): Promise<Response> {
+    const { cd_teacher } = request.params;
+
+    const {
+      name,
+      institution,
+      age,
+      email,
+      password,
+      id_subject
+    } = request.body;
+
+    const teacher = {
+      name,
+      institution,
+      age,
+      email,
+      password,
+      id_subject
+    };
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .update(Teacher)
+        .set(teacher)
+        .where('id = :id', { id: cd_teacher })
+        .execute();
+
+      return response.status(200).send({
+        success: `Teacher with id ${cd_teacher} has been successfully updated`,
+        data: teacher,
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to updated teacher',
+        message: err.sqlMessage,
+      });
+    };
+  };
 };
