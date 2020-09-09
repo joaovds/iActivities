@@ -62,5 +62,27 @@ export default class TeacherController {
         message: err.sqlMessage,
       });
     };
-  }
+  };
+  async delete(request: Request, response: Response): Promise<Response> {
+    const { cd_teacher } = request.params;
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Teacher)
+        .where('id = :id', { id: cd_teacher })
+        .execute();
+
+      return response.status(200).send({
+        success: `Teacher with id ${cd_teacher} has been successfully deleted`,
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to delete teacher',
+        message: err.sqlMessage,
+      });
+    };
+  };
 };
