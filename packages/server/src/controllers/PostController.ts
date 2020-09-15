@@ -7,18 +7,19 @@ export default class PostController {
     const {
       title,
       description,
-      subjectId,
-      studentId
+      subject
     } = request.body;
 
-    // const studentId = request.headers.authorization;
+    const student = request.headers.authorization;
 
     const post = {
       title,
       description,
-      studentId,
-      subjectId
+      student,
+      subject
     };
+
+    console.log(post)
 
     try {
       await getConnection()
