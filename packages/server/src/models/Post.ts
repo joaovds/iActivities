@@ -25,10 +25,16 @@ export default class Post {
   @UpdateDateColumn()
   updated_At: Date;
 
-  @ManyToOne(() => Student, student => student.posts)
+  @ManyToOne(() => Student, student => student.posts, {
+    cascade: ['update', 'remove'],
+    nullable: false,
+  })
   student: Student;
 
-  @ManyToOne(() => Subject, subject => subject.posts)
+  @ManyToOne(() => Subject, subject => subject.posts, {
+    cascade: ['update', 'remove'],
+    nullable: false,
+  })
   subject: Subject;
 
   @OneToMany(() => Response, responses => responses.post)

@@ -41,7 +41,10 @@ export default class Teacher {
   @UpdateDateColumn()
   updated_At: Date;
 
-  @ManyToOne(() => Subject, subject => subject.teachers)
+  @ManyToOne(() => Subject, subject => subject.teachers, {
+    cascade: ['update', 'remove'],
+    nullable: false,
+  })
   subject: Subject;
 
   @OneToMany(() => Like, likes => likes.teacher)

@@ -14,12 +14,21 @@ export default class Like {
   @UpdateDateColumn()
   updated_At: Date;
 
-  @ManyToOne(() => Student, student => student.likes)
+  @ManyToOne(() => Student, student => student.likes, {
+    cascade: ['update', 'remove'],
+    nullable: false,
+  })
   student: Student;
 
-  @ManyToOne(() => Teacher, teacher => teacher.likes)
+  @ManyToOne(() => Teacher, teacher => teacher.likes, {
+    cascade: ['update', 'remove'],
+    nullable: false,
+  })
   teacher: Teacher;
 
-  @ManyToOne(() => Post, post => post.likes)
+  @ManyToOne(() => Post, post => post.likes, {
+    cascade: ['update', 'remove'],
+    nullable: false,
+  })
   post: Post;
 }

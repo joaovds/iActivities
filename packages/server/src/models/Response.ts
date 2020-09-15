@@ -17,6 +17,9 @@ export default class Response {
   @UpdateDateColumn()
   updated_At: Date;
 
-  @ManyToOne(() => Post, post => post.responses)
+  @ManyToOne(() => Post, post => post.responses, {
+    cascade: ['update', 'remove'],
+    nullable: false,
+  })
   post: Post;
 }

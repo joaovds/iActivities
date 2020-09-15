@@ -10,7 +10,7 @@ export default class TeacherController {
       age,
       email,
       password,
-      id_subject
+      subject
     } = request.body;
 
     const teacher = {
@@ -19,7 +19,7 @@ export default class TeacherController {
       age,
       email,
       password,
-      id_subject
+      subject
     };
 
     try {
