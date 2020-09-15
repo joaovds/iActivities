@@ -58,4 +58,25 @@ export default class PostController {
       });
     }
   }
+  async show(request: Request, response: Response): Promise<Response> {
+    const student = request.headers.authorization;
+    const { postId } = request.params;
+
+    try {
+      const findPost = await getConnection()
+        .getRepository(Post)
+        .createQueryBuilder('post')
+        .where('id = :postId', { postId })
+        .andWhere('studentId = :student', {student})
+        .getOne();
+
+      return response.status(200).send({ findPost });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to list post',
+        message: err.sqlMessage,
+      });
+    }
+  }
 }
