@@ -20,5 +20,6 @@ routes.get('/teacher/:cd_teacher', teacherController.show);
 routes.delete('/teacher/:cd_teacher', teacherController.delete);
 
 routes.post('/post', postControlller.create);
+routes.get('/post', postControlller.index);
 
 export default routes;

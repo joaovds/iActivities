@@ -19,8 +19,6 @@ export default class PostController {
       subject
     };
 
-    console.log(post)
-
     try {
       await getConnection()
         .createQueryBuilder()
@@ -38,6 +36,25 @@ export default class PostController {
       return response.status(400).send({
         error: 'Failed to create post',
         message: err.sqlMessage
+      });
+    }
+  };
+  async index(request: Request, response: Response): Promise<Response> {
+    const student = request.headers.authorization;
+
+    try {
+      const findAllPosts = await getConnection()
+        .getRepository(Post)
+        .createQueryBuilder('post')
+        .where('studentId = :student', {student})
+        .getMany();
+
+      return response.status(200).send(findAllPosts)
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to list posts',
+        message: err.sqlMessage,
       });
     }
   }
