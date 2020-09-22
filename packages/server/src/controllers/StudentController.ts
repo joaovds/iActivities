@@ -2,6 +2,8 @@ import { getConnection } from 'typeorm';
 import Student from '../models/Student';
 import { Request, Response } from 'express';
 
+import { emailService } from '../services/emailServices';
+
 export default class StudentController {
   async create(request: Request, response: Response): Promise<Response> {
     const {
@@ -29,6 +31,14 @@ export default class StudentController {
           user
         )
         .execute();
+
+      emailService(
+        email,
+        'jv782063@gmail.com',
+        'Bem vindo(a) ao iActivities!',
+        `Olá ${name}, seja bem vindo(a) ao iActivities!`,
+        `<h3>Olá ${name}, seja bem vindo(a) ao iActivities!</h3>`,
+      );
 
       return response.status(201).send({
         succes: 'Registered successfully',
