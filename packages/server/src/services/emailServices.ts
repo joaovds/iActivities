@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.sendgridKey);
+sgMail.setApiKey();
 
 const emailService = (to: string, from: string, subject: string, text: string, html: string): void => {
   const msg = {

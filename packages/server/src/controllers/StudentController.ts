@@ -34,7 +34,7 @@ export default class StudentController {
 
       emailService(
         email,
-        'jv782063@gmail.com',
+        'iActivities010@gmail.com',
         'Bem vindo(a) ao iActivities!',
         `Olá ${name}, seja bem vindo(a) ao iActivities!`,
         `<h3>Olá ${name}, seja bem vindo(a) ao iActivities!</h3>`,
