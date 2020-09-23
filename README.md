@@ -6,12 +6,11 @@
 [![Contributors][contributors-shield]][contributors-url]
 ![MIT License][license-shield]
 ![Issues][issues-shield]
-[![Build Status][travis-image]][travis-url]
 [![Forks][forks-shield]][forks-url]
 ![Stargazers][stars-shield]
 
 <br><br>
-A web and mobile application made to answer all your questions, here you post a question about a subject and a teacher goes there and answers, if you are not satisfied with the answer, you will have the possibility to open a chat and chat in real time with this teacher !!
+A web and mobile application made to answer all your questions, here you post a question about a subject and a teacher goes there and answers, if you are not satisfied with the answer, you will have the possibility to open a chat and talk real time with this teacher !!
 
 <img src="assets/banner.png" 
      style="display:block;float:none;margin-left:auto;margin-right:auto;width:60%"> 
@@ -40,15 +39,32 @@ $ cd iActivities
 Inside the server folder, execute:
 
 ```sh
-$  yarn 
-$  node src/index.js 
+$  yarn intall
+$  yarn run dev:server 
 ```
 
 ###### or
 
 ```sh
 $ npm install 
-$ node src/index.js 
+$ npm run dev:server
+```
+
+Inside the mobile folder, execute:
+>NOTE: for you to run a mobile app, you have to have it installed or exposed on your machine
+
+<br>
+
+```sh
+$ yarn install
+$ expo start
+```
+
+###### or
+
+```sh
+$ npm install 
+$ expo start
 ```
 
 Inside the web folder, execute:
