@@ -1,10 +1,46 @@
-import { getConnection } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 import Student from '../models/Student';
 import { Request, Response } from 'express';
-
+import * as jwt from 'jsonwebtoken';
 import { emailService } from '../services/emailServices';
+import { off } from 'process';
 
 export default class StudentController {
+  async login(request: Request, response: Response): Promise<Response> {
+    const { email, password } = request.body;
+
+    const student = await getRepository(Student).find({
+      where: {
+        email
+      }
+    });
+
+    if (student.length === 1) {
+      if (password === student[0].password) {
+        const token = jwt.sign({ id: student[0].id }, process.env.APP_SECRET, {
+          expiresIn: '1d'
+        });
+        const data = {
+          id: student[0].id,
+          name: student[0].name,
+          email: student[0].email,
+          age: student[0].age,
+          institution: student[0].institution,
+          token
+        };
+        return response.status(200).json(data);
+      } else {
+        return response.status(404).json({
+          message: 'User not found',
+        });
+      }
+    } else {
+      return response.status(404).json({
+        message: 'User not found',
+      });
+    }
+  }
+
   async create(request: Request, response: Response): Promise<Response> {
     const {
       name,

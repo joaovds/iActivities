@@ -1,3 +1,4 @@
+import './config/env';
 import 'reflect-metadata';
 import './database/connection';
 import * as express from 'express';
