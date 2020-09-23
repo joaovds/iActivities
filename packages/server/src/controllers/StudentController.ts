@@ -3,7 +3,6 @@ import Student from '../models/Student';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { emailService } from '../services/emailServices';
-import { off } from 'process';
 
 export default class StudentController {
   async login(request: Request, response: Response): Promise<Response> {
