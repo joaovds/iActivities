@@ -101,7 +101,7 @@ export default class StudentController {
     } catch (err) {
       console.log(err);
       return response.status(400).send({
-        error: 'Failed to create student',
+        error: 'Failed to show student',
         message: err.sqlMessage,
       });
     };
@@ -123,7 +123,7 @@ export default class StudentController {
     } catch (err) {
       console.log(err);
       return response.status(400).send({
-        error: 'Failed to create student',
+        error: 'Failed to delete student',
         message: err.sqlMessage,
       });
     };
@@ -162,7 +162,7 @@ export default class StudentController {
     } catch (err) {
       console.log(err);
       return response.status(400).send({
-        error: 'Failed to create student',
+        error: 'Failed to update student',
         message: err.sqlMessage,
       });
     }

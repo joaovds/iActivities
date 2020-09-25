@@ -58,4 +58,29 @@ export default class SubjectController {
       });
     }
   }
+
+  async update(request: Request, response: Response): Promise<Response> {
+    const { cd_subject } = request.params;
+    const { name } = request.body;
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .update(Subject)
+        .set({ name })
+        .where('id = :id', { id: cd_subject })
+        .execute();
+
+      return response.status(201).send({
+        succes: `Subject with id ${cd_subject} has been successfully updated`,
+        data: name,
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to update subject',
+        message: err.sqlMessage,
+      });
+    }
+  }
 }
