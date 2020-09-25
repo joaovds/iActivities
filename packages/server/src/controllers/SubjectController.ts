@@ -41,4 +41,21 @@ export default class SubjectController {
       });
     }
   }
+
+  async index(request: Request, response: Response): Promise<Response> {
+    try {
+      const subjects = await getConnection()
+        .getRepository(Subject)
+        .createQueryBuilder('subject')
+        .getMany();
+
+      return response.status(200).send({ subjects });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to index subjects',
+        message: err.sqlMessage,
+      });
+    }
+  }
 }

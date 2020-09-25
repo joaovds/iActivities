@@ -32,5 +32,6 @@ routes.get('/post/:postId', auth.auth, postControlller.show);
 
 routes.post('/subject', subjectController.create);
 routes.get('/subject/:cd_subject', subjectController.show);
+routes.get('/subject', subjectController.index);
 
 export default routes;
