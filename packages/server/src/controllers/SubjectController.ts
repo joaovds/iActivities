@@ -83,4 +83,27 @@ export default class SubjectController {
       });
     }
   }
+
+  async delete(request: Request, response: Response): Promise<Response> {
+    const { cd_subject } = request.params;
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Subject)
+        .where('id = :id', { id: cd_subject })
+        .execute();
+
+      return response.status(200).send({
+        success: `Subject with id ${cd_subject} has been successfully deleted`,
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to delete subject',
+        message: err.sqlMessage,
+      });
+    }
+  }
 }

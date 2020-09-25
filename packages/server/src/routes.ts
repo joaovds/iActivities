@@ -34,5 +34,6 @@ routes.post('/subject', subjectController.create);
 routes.get('/subject/:cd_subject', subjectController.show);
 routes.get('/subject', subjectController.index);
 routes.put('/subject/:cd_subject', subjectController.update);
+routes.delete('/subject/:cd_subject', subjectController.delete);
 
 export default routes;
