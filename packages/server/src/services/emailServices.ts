@@ -1,8 +1,14 @@
 import 'dotenv/config';
 import sgMail = require('@sendgrid/mail');
-sgMail.setApiKey();
+sgMail.setApiKey(process.env.SENDGRIPKEY);
 
-const emailService = (to: string, from: string, subject: string, text: string, html: string): void => {
+const emailService = (
+  to: string,
+  from: string,
+  subject: string,
+  text: string,
+  html: string
+): void => {
   const msg = {
     to: to,
     from: from,
@@ -10,11 +16,14 @@ const emailService = (to: string, from: string, subject: string, text: string, h
     text: text,
     html: html,
   };
-  sgMail.send(msg).then(() => {
-    console.log('Email sent')
-  }).catch((err) => {
-    console.log(err)
-  })
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
-export {emailService}
+export { emailService };
