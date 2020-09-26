@@ -87,6 +87,25 @@ export default class StudentController {
       });
     };
   };
+  async index(request: Request, response: Response): Promise<Response> {
+    try {
+      const users = await getConnection()
+        .getRepository(Student)
+        .createQueryBuilder('student')
+        .select(['id', 'name', 'institution', 'age', 'email'])
+        .getRawMany();
+
+      return response.status(200).json({
+        students: users
+      })
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to list all users',
+        message: err.sqlMessage,
+      });
+    }
+  };
   async show(request: Request, response: Response): Promise<Response> {
     const { cd_student } = request.params;
 
