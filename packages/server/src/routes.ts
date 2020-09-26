@@ -20,8 +20,8 @@ routes.post('/student/login', studentController.login);
 routes.post('/student', studentController.create);
 routes.get('/student', studentController.index);
 routes.get('/student/:cd_student', studentController.show);
-routes.delete('/student/:cd_student', auth.auth, studentController.delete);
-routes.put('/student/:cd_student', auth.auth, studentController.update);
+routes.delete('/student', auth.auth, studentController.delete);
+routes.put('/student', auth.auth, studentController.update);
 
 routes.post('/teacher', teacherController.create);
 routes.get('/teacher/:cd_teacher', teacherController.show);
