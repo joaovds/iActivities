@@ -4,6 +4,7 @@ import StudentController from './controllers/StudentController';
 import TeacherController from './controllers/TeacherController';
 import PostController from './controllers/PostController';
 import SubjectController from './controllers/SubjectController';
+import CreateSeeds from './database/CreateSeeds';
 
 import Middlewares from './middlewares/auth';
 
@@ -13,6 +14,7 @@ const studentController = new StudentController();
 const teacherController = new TeacherController();
 const postControlller = new PostController();
 const subjectController = new SubjectController();
+const createSeeds = new CreateSeeds();
 
 const auth = new Middlewares();
 
@@ -35,5 +37,7 @@ routes.get('/subject/:cd_subject', subjectController.show);
 routes.get('/subject', subjectController.index);
 routes.put('/subject/:cd_subject', subjectController.update);
 routes.delete('/subject/:cd_subject', subjectController.delete);
+
+routes.post('/seeds', createSeeds.create);
 
 export default routes;
