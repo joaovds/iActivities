@@ -4,6 +4,17 @@ import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { emailService } from '../services/emailServices';
 
+function getIdFromToken (authHeader: string) {
+  try {
+    const [, token] = authHeader.split(' ');
+    const decoded = jwt.verify(token, process.env.APP_SECRET);
+
+    return decoded.id;
+  } catch (err) {
+    return false;
+  }
+}
+
 export default class StudentController {
   async login(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
@@ -87,6 +98,25 @@ export default class StudentController {
       });
     };
   };
+  async index(request: Request, response: Response): Promise<Response> {
+    try {
+      const users = await getConnection()
+        .getRepository(Student)
+        .createQueryBuilder('student')
+        .select(['id', 'name', 'institution', 'age', 'email'])
+        .getRawMany();
+
+      return response.status(200).json({
+        students: users
+      })
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to list all users',
+        message: err.sqlMessage,
+      });
+    }
+  };
   async show(request: Request, response: Response): Promise<Response> {
     const { cd_student } = request.params;
 
@@ -107,7 +137,21 @@ export default class StudentController {
     };
   };
   async delete(request: Request, response: Response): Promise<Response> {
-    const { cd_student } = request.params;
+    const authHeader = request.headers.authorization;
+
+    if (!authHeader) {
+      return response.status(401).json({
+        message: 'Token is require',
+      });
+    };
+
+    const cd_student = getIdFromToken(authHeader);
+
+    if (cd_student === false) {
+      return response.status(401).json({
+        message: 'Token invalid',
+      })
+    }
 
     try {
       await getConnection()
@@ -129,7 +173,21 @@ export default class StudentController {
     };
   };
   async update(request: Request, response: Response): Promise<Response> {
-    const { cd_student } = request.params;
+    const authHeader = request.headers.authorization;
+
+    if (!authHeader) {
+      return response.status(401).json({
+        message: 'Token is require',
+      });
+    };
+
+    const cd_student = getIdFromToken(authHeader);
+
+    if (cd_student === false) {
+      return response.status(401).json({
+        message: 'Token invalid',
+      })
+    }
 
     const {
       name,
