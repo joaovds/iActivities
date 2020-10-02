@@ -3,17 +3,7 @@ import Student from '../models/Student';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { emailService } from '../services/emailServices';
-
-function getIdFromToken (authHeader: string) {
-  try {
-    const [, token] = authHeader.split(' ');
-    const decoded = jwt.verify(token, process.env.APP_SECRET);
-
-    return decoded.id;
-  } catch (err) {
-    return false;
-  }
-}
+import { getIdFromToken } from '../utils/getIdFromToken';
 
 export default class StudentController {
   async login(request: Request, response: Response): Promise<Response> {
@@ -74,7 +64,7 @@ export default class StudentController {
       .where('email = :email', { email: email })
       .getOne();
 
-    if(userExist) {
+    if (userExist) {
       return response.status(401).send({
         error: 'Conflict between fields'
       })

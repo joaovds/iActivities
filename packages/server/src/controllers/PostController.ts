@@ -1,18 +1,7 @@
 import { getConnection } from 'typeorm';
 import Post from '../models/Post';
 import { Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
-
-function getIdFromToken (authHeader: string) {
-  try {
-    const [, token] = authHeader.split(' ');
-    const decoded = jwt.verify(token, process.env.APP_SECRET);
-
-    return decoded.id;
-  } catch (err) {
-    return false;
-  }
-}
+import { getIdFromToken } from '../utils/getIdFromToken';
 
 export default class PostController {
   async create(request: Request, response: Response): Promise<Response> {
