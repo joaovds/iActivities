@@ -68,6 +68,18 @@ export default class StudentController {
       password
     };
 
+    const userExist = await getConnection()
+      .getRepository(Student)
+      .createQueryBuilder('student')
+      .where('email = :email', { email: email })
+      .getOne();
+
+    if(userExist) {
+      return response.status(401).send({
+        error: 'Conflict between fields'
+      })
+    }
+
     try {
       await getConnection()
         .createQueryBuilder()
