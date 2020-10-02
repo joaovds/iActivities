@@ -159,6 +159,7 @@ export default class PostController {
         .update(Post)
         .set(post)
         .where('id = :id', { id: postId })
+        .andWhere('studentId = :studentId', { studentId: student })
         .execute();
 
       return response.status(200).send({
@@ -173,4 +174,43 @@ export default class PostController {
       });
     }
   }
+
+  async delete(request: Request, response: Response): Promise<Response> {
+    const authHeader = request.headers.authorization;
+    const { postId } = request.params;
+
+    if (!authHeader) {
+      return response.status(401).json({
+        message: 'Token is require',
+      });
+    };
+
+    const student = getIdFromToken(authHeader);
+
+    if (student === false) {
+      return response.status(401).json({
+        message: 'Token invalid',
+      })
+    }
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Post)
+        .where('id = :id', { id: postId })
+        .andWhere('studentId = :studentId', { studentId: student })
+        .execute();
+
+      return response.status(200).send({
+        success: `Post with id ${postId} has been successfully deleted`,
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to delete post',
+        message: err.sqlMessage,
+      });
+    };
+  };
 }

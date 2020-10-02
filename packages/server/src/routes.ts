@@ -33,6 +33,7 @@ routes.post('/post', auth.auth, postControlller.create);
 routes.get('/post', auth.auth, postControlller.index);
 routes.get('/post/:postId', auth.auth, postControlller.show);
 routes.put('/post/:postId', auth.auth, postControlller.update);
+routes.delete('/post/:postId', auth.auth, postControlller.delete);
 
 routes.post('/subject', subjectController.create);
 routes.get('/subject/:cd_subject', subjectController.show);
