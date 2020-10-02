@@ -4,6 +4,7 @@ import StudentController from './controllers/StudentController';
 import TeacherController from './controllers/TeacherController';
 import PostController from './controllers/PostController';
 import SubjectController from './controllers/SubjectController';
+import ResponseController from './controllers/ResponseController';
 import CreateSeeds from './database/CreateSeeds';
 
 import Middlewares from './middlewares/auth';
@@ -14,6 +15,7 @@ const studentController = new StudentController();
 const teacherController = new TeacherController();
 const postControlller = new PostController();
 const subjectController = new SubjectController();
+const responseController = new ResponseController();
 const createSeeds = new CreateSeeds();
 
 const auth = new Middlewares();
@@ -34,6 +36,8 @@ routes.get('/post', auth.auth, postControlller.index);
 routes.get('/post/:postId', auth.auth, postControlller.show);
 routes.put('/post/:postId', auth.auth, postControlller.update);
 routes.delete('/post/:postId', auth.auth, postControlller.delete);
+
+routes.post('/response', auth.auth, responseController.create);
 
 routes.post('/subject', subjectController.create);
 routes.get('/subject/:cd_subject', subjectController.show);
