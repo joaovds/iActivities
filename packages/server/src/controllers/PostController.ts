@@ -122,4 +122,55 @@ export default class PostController {
       });
     }
   }
+
+  async update(request: Request, response: Response): Promise<Response> {
+    const authHeader = request.headers.authorization;
+    const { postId } = request.params;
+    const {
+      title,
+      description,
+      subject
+    } = request.body;
+
+    if (!authHeader) {
+      return response.status(401).json({
+        message: 'Token is require',
+      });
+    };
+
+    const student = getIdFromToken(authHeader);
+
+    if (student === false) {
+      return response.status(401).json({
+        message: 'Token invalid',
+      })
+    }
+
+    const post = {
+      title,
+      description,
+      student,
+      subject
+    };
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .update(Post)
+        .set(post)
+        .where('id = :id', { id: postId })
+        .execute();
+
+      return response.status(200).send({
+        succes: `Post with id ${postId} has been successfully updated`,
+        data: post
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to update post',
+        message: err.sqlMessage,
+      });
+    }
+  }
 }
