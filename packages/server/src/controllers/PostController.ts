@@ -1,6 +1,18 @@
 import { getConnection } from 'typeorm';
 import Post from '../models/Post';
 import { Request, Response } from 'express';
+import * as jwt from 'jsonwebtoken';
+
+function getIdFromToken (authHeader: string) {
+  try {
+    const [, token] = authHeader.split(' ');
+    const decoded = jwt.verify(token, process.env.APP_SECRET);
+
+    return decoded.id;
+  } catch (err) {
+    return false;
+  }
+}
 
 export default class PostController {
   async create(request: Request, response: Response): Promise<Response> {
@@ -10,7 +22,21 @@ export default class PostController {
       subject
     } = request.body;
 
-    const student = request.headers.authorization;
+    const authHeader = request.headers.authorization;
+
+    if (!authHeader) {
+      return response.status(401).json({
+        message: 'Token is require',
+      });
+    };
+
+    const student = getIdFromToken(authHeader);
+
+    if (student === false) {
+      return response.status(401).json({
+        message: 'Token invalid',
+      })
+    }
 
     const post = {
       title,
@@ -40,7 +66,21 @@ export default class PostController {
     }
   };
   async index(request: Request, response: Response): Promise<Response> {
-    const student = request.headers.authorization;
+    const authHeader = request.headers.authorization;
+
+    if (!authHeader) {
+      return response.status(401).json({
+        message: 'Token is require',
+      });
+    };
+
+    const student = getIdFromToken(authHeader);
+
+    if (student === false) {
+      return response.status(401).json({
+        message: 'Token invalid',
+      })
+    }
 
     try {
       const findAllPosts = await getConnection()
@@ -59,8 +99,22 @@ export default class PostController {
     }
   }
   async show(request: Request, response: Response): Promise<Response> {
-    const student = request.headers.authorization;
+    const authHeader = request.headers.authorization;
     const { postId } = request.params;
+
+    if (!authHeader) {
+      return response.status(401).json({
+        message: 'Token is require',
+      });
+    };
+
+    const student = getIdFromToken(authHeader);
+
+    if (student === false) {
+      return response.status(401).json({
+        message: 'Token invalid',
+      })
+    }
 
     try {
       const findPost = await getConnection()
