@@ -1,5 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany} from 'typeorm';
+import Like from './Like';
 import Post from './Post';
+import Teacher from './Teacher';
 
 @Entity()
 export default class Response {
@@ -22,4 +24,13 @@ export default class Response {
     nullable: false,
   })
   post: Post;
+
+  @ManyToOne(() => Teacher, teacher => teacher.responses, {
+    cascade: ['update', 'remove'],
+    nullable: false,
+  })
+  teacher: Teacher;
+
+  @OneToMany(() => Like, likes => likes.response)
+  likes: Like[];
 }

@@ -1,6 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany} from 'typeorm';
 import Subject from './Subject';
 import Like from './Like';
+import Response from './Response';
 
 @Entity()
 export default class Teacher {
@@ -35,6 +36,9 @@ export default class Teacher {
   })
   password: string;
 
+  @Column()
+  photography: string;
+
   @CreateDateColumn()
   created_At: Date;
 
@@ -49,4 +53,7 @@ export default class Teacher {
 
   @OneToMany(() => Like, likes => likes.teacher)
   likes: Like[];
+
+  @OneToMany(() => Response, responses => responses.teacher)
+  responses: Response[];
 }

@@ -1,7 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne} from 'typeorm';
 import Student from './Student';
 import Teacher from './Teacher';
-import Post from './Post';
+import Response from './Response';
 
 @Entity()
 export default class Like {
@@ -16,19 +16,17 @@ export default class Like {
 
   @ManyToOne(() => Student, student => student.likes, {
     cascade: ['update', 'remove'],
-    nullable: false,
   })
   student: Student;
 
   @ManyToOne(() => Teacher, teacher => teacher.likes, {
     cascade: ['update', 'remove'],
-    nullable: false,
   })
   teacher: Teacher;
 
-  @ManyToOne(() => Post, post => post.likes, {
+  @ManyToOne(() => Response, response => response.likes, {
     cascade: ['update', 'remove'],
     nullable: false,
   })
-  post: Post;
+  response: Response;
 }

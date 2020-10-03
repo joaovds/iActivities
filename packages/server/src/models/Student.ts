@@ -35,6 +35,9 @@ export default class Student {
   })
   password: string;
 
+  @Column()
+  photography: string;
+
   @CreateDateColumn()
   created_At: Date;
 
