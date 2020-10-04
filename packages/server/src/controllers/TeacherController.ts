@@ -141,15 +141,27 @@ export default class TeacherController {
     };
   };
   async update(request: Request, response: Response): Promise<Response> {
-    const { cd_teacher } = request.params;
+    const authHeader = request.headers.authorization;
 
+    if (!authHeader) {
+      return response.status(401).json({
+        message: 'Token is require',
+      });
+    };
+    const cd_teacher = getIdFromToken(authHeader);
+
+    if (cd_teacher === false) {
+      return response.status(401).json({
+        message: 'Token invalid',
+      })
+    }
     const {
       name,
       institution,
       age,
       email,
       password,
-      id_subject
+      subject
     } = request.body;
 
     const teacher = {
@@ -158,7 +170,7 @@ export default class TeacherController {
       age,
       email,
       password,
-      id_subject
+      subject
     };
 
     try {
