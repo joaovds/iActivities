@@ -5,6 +5,8 @@ import * as jwt from 'jsonwebtoken';
 import { emailService } from '../services/emailServices';
 import { getIdFromToken } from '../utils/getIdFromToken';
 
+import { azureCreate } from '../services/azureServiceCreate';
+
 export default class StudentController {
   async login(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
@@ -47,15 +49,19 @@ export default class StudentController {
       institution,
       age,
       email,
-      password
+      password,
+      image
     } = request.body;
+
+    const photography = azureCreate('images', image);
 
     const user = {
       name,
       institution,
       age,
       email,
-      password
+      password,
+      photography
     };
 
     const userExist = await getConnection()
