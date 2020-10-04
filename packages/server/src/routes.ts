@@ -30,7 +30,8 @@ routes.put('/student', auth.auth, studentController.update);
 routes.post('/teacher/login', teacherController.login);
 routes.post('/teacher', teacherController.create);
 routes.get('/teacher/:cd_teacher', teacherController.show);
-routes.delete('/teacher/:cd_teacher', teacherController.delete);
+routes.delete('/teacher', auth.auth, teacherController.delete);
+routes.put('/teacher/:cd_teacher', teacherController.update);
 
 routes.post('/post', auth.auth, postControlller.create);
 routes.get('/post', auth.auth, postControlller.index);

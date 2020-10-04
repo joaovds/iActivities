@@ -2,6 +2,7 @@ import { getConnection, getRepository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
 import Teacher from '../models/Teacher';
 import { Request, Response } from 'express';
+import { getIdFromToken } from '../utils/getIdFromToken';
 
 import { azureCreate } from '../services/azureServiceCreate';
 
@@ -106,8 +107,20 @@ export default class TeacherController {
     };
   };
   async delete(request: Request, response: Response): Promise<Response> {
-    const { cd_teacher } = request.params;
+    const authHeader = request.headers.authorization;
 
+    if (!authHeader) {
+      return response.status(401).json({
+        message: 'Token is require',
+      });
+    };
+    const cd_teacher = getIdFromToken(authHeader);
+
+    if (cd_teacher === false) {
+      return response.status(401).json({
+        message: 'Token invalid',
+      })
+    }
     try {
       await getConnection()
         .createQueryBuilder()
