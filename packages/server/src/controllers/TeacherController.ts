@@ -2,6 +2,8 @@ import { getConnection } from 'typeorm';
 import Teacher from '../models/Teacher';
 import { Request, Response } from 'express';
 
+import { azureCreate } from '../services/azureServiceCreate';
+
 export default class TeacherController {
   async create(request: Request, response: Response): Promise<Response> {
     const {
@@ -10,8 +12,11 @@ export default class TeacherController {
       age,
       email,
       password,
-      subject
+      subject,
+      image
     } = request.body;
+
+    const photography = azureCreate('images', image);
 
     const teacher = {
       name,
@@ -19,7 +24,8 @@ export default class TeacherController {
       age,
       email,
       password,
-      subject
+      subject,
+      photography
     };
 
     try {
