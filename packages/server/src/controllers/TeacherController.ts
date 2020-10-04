@@ -1,10 +1,46 @@
-import { getConnection } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
+import * as jwt from 'jsonwebtoken';
 import Teacher from '../models/Teacher';
 import { Request, Response } from 'express';
 
 import { azureCreate } from '../services/azureServiceCreate';
 
 export default class TeacherController {
+  async login(request: Request, response: Response): Promise<Response> {
+    const { email, password } = request.body;
+
+    const teacher = await getRepository(Teacher).find({
+      where: {
+        email
+      }
+    });
+
+    if (teacher.length === 1) {
+      if (password === teacher[0].password) {
+        const token = jwt.sign({ id: teacher[0].id }, process.env.APP_SECRET, {
+          expiresIn: '1d'
+        });
+        const data = {
+          id: teacher[0].id,
+          name: teacher[0].name,
+          email: teacher[0].email,
+          age: teacher[0].age,
+          institution: teacher[0].institution,
+          token
+        };
+        return response.status(200).json(data);
+      } else {
+        return response.status(404).json({
+          message: 'User not found',
+        });
+      }
+    } else {
+      return response.status(404).json({
+        message: 'User not found',
+      });
+    }
+  }
+
   async create(request: Request, response: Response): Promise<Response> {
     const {
       name,

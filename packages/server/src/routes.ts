@@ -27,6 +27,7 @@ routes.get('/student/:cd_student', studentController.show);
 routes.delete('/student', auth.auth, studentController.delete);
 routes.put('/student', auth.auth, studentController.update);
 
+routes.post('/teacher/login', teacherController.login);
 routes.post('/teacher', teacherController.create);
 routes.get('/teacher/:cd_teacher', teacherController.show);
 routes.delete('/teacher/:cd_teacher', teacherController.delete);
