@@ -8,7 +8,8 @@ export default class PostController {
     const {
       title,
       description,
-      subject
+      subject,
+      photography = 0
     } = request.body;
 
     const authHeader = request.headers.authorization;
@@ -31,7 +32,8 @@ export default class PostController {
       title,
       description,
       student,
-      subject
+      subject,
+      photography
     };
 
     try {

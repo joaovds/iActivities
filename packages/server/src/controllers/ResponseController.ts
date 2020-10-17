@@ -15,9 +15,9 @@ export default class ResponseController {
       });
     };
 
-    const student = getIdFromToken(authHeader);
+    const teacher = getIdFromToken(authHeader);
 
-    if (student === false) {
+    if (teacher === false) {
       return response.status(401).json({
         message: 'Token invalid',
       });
@@ -28,7 +28,7 @@ export default class ResponseController {
         .createQueryBuilder()
         .insert()
         .into(ResponseClass)
-        .values({ response_body, post: postId })
+        .values({ teacher, response_body, post: postId })
         .execute();
 
       return response.status(201).send({
@@ -43,4 +43,26 @@ export default class ResponseController {
       });
     }
   };
+  async delete(request: Request, response: Response): Promise<Response> {
+    const { cd_response } = request.params;
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(ResponseClass)
+        .where('id = :id', { id: cd_response })
+        .execute();
+
+      return response.status(200).send({
+        success: `Response with id ${cd_response} has been successfully deleted`,
+      });
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to delete response',
+        message: err.sqlMessage,
+      });
+    };
+  }
 }
