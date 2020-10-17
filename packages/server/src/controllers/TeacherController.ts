@@ -65,6 +65,18 @@ export default class TeacherController {
       photography
     };
 
+    const teacherExist = await getConnection()
+      .getRepository(Teacher)
+      .createQueryBuilder('teacher')
+      .where('email = :email', { email: email })
+      .getOne();
+
+    if (teacherExist) {
+      return response.status(401).send({
+        error: 'Conflict between fields'
+      })
+    }
+
     try {
       await getConnection()
         .createQueryBuilder()
