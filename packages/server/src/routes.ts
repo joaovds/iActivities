@@ -31,7 +31,7 @@ routes.post('/teacher/login', teacherController.login);
 routes.post('/teacher', teacherController.create);
 routes.get('/teacher/:cd_teacher', teacherController.show);
 routes.delete('/teacher', auth.auth, teacherController.delete);
-routes.put('/teacher', teacherController.update);
+routes.put('/teacher', auth.auth, teacherController.update);
 
 routes.post('/post', auth.auth, postControlller.create);
 routes.get('/post', auth.auth, postControlller.index);

@@ -14,19 +14,7 @@ export default class PostController {
 
     const authHeader = request.headers.authorization;
 
-    if (!authHeader) {
-      return response.status(401).json({
-        message: 'Token is require',
-      });
-    };
-
     const student = getIdFromToken(authHeader);
-
-    if (student === false) {
-      return response.status(401).json({
-        message: 'Token invalid',
-      })
-    }
 
     const post = {
       title,
@@ -59,19 +47,7 @@ export default class PostController {
   async index(request: Request, response: Response): Promise<Response> {
     const authHeader = request.headers.authorization;
 
-    if (!authHeader) {
-      return response.status(401).json({
-        message: 'Token is require',
-      });
-    };
-
     const student = getIdFromToken(authHeader);
-
-    if (student === false) {
-      return response.status(401).json({
-        message: 'Token invalid',
-      })
-    }
 
     try {
       const findAllPosts = await getConnection()
@@ -93,19 +69,7 @@ export default class PostController {
     const authHeader = request.headers.authorization;
     const { postId } = request.params;
 
-    if (!authHeader) {
-      return response.status(401).json({
-        message: 'Token is require',
-      });
-    };
-
     const student = getIdFromToken(authHeader);
-
-    if (student === false) {
-      return response.status(401).json({
-        message: 'Token invalid',
-      })
-    }
 
     try {
       const findPost = await getConnection()
@@ -134,19 +98,7 @@ export default class PostController {
       subject
     } = request.body;
 
-    if (!authHeader) {
-      return response.status(401).json({
-        message: 'Token is require',
-      });
-    };
-
     const student = getIdFromToken(authHeader);
-
-    if (student === false) {
-      return response.status(401).json({
-        message: 'Token invalid',
-      })
-    }
 
     const post = {
       title,
@@ -181,19 +133,7 @@ export default class PostController {
     const authHeader = request.headers.authorization;
     const { postId } = request.params;
 
-    if (!authHeader) {
-      return response.status(401).json({
-        message: 'Token is require',
-      });
-    };
-
     const student = getIdFromToken(authHeader);
-
-    if (student === false) {
-      return response.status(401).json({
-        message: 'Token invalid',
-      })
-    }
 
     try {
       await getConnection()

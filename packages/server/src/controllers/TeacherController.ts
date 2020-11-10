@@ -121,18 +121,8 @@ export default class TeacherController {
   async delete(request: Request, response: Response): Promise<Response> {
     const authHeader = request.headers.authorization;
 
-    if (!authHeader) {
-      return response.status(401).json({
-        message: 'Token is require',
-      });
-    };
     const cd_teacher = getIdFromToken(authHeader);
 
-    if (cd_teacher === false) {
-      return response.status(401).json({
-        message: 'Token invalid',
-      })
-    }
     try {
       await getConnection()
         .createQueryBuilder()
@@ -155,18 +145,8 @@ export default class TeacherController {
   async update(request: Request, response: Response): Promise<Response> {
     const authHeader = request.headers.authorization;
 
-    if (!authHeader) {
-      return response.status(401).json({
-        message: 'Token is require',
-      });
-    };
     const cd_teacher = getIdFromToken(authHeader);
 
-    if (cd_teacher === false) {
-      return response.status(401).json({
-        message: 'Token invalid',
-      })
-    }
     const {
       name,
       institution,

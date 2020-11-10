@@ -147,19 +147,7 @@ export default class StudentController {
   async delete(request: Request, response: Response): Promise<Response> {
     const authHeader = request.headers.authorization;
 
-    if (!authHeader) {
-      return response.status(401).json({
-        message: 'Token is require',
-      });
-    };
-
     const cd_student = getIdFromToken(authHeader);
-
-    if (cd_student === false) {
-      return response.status(401).json({
-        message: 'Token invalid',
-      })
-    }
 
     try {
       await getConnection()
@@ -183,19 +171,7 @@ export default class StudentController {
   async update(request: Request, response: Response): Promise<Response> {
     const authHeader = request.headers.authorization;
 
-    if (!authHeader) {
-      return response.status(401).json({
-        message: 'Token is require',
-      });
-    };
-
     const cd_student = getIdFromToken(authHeader);
-
-    if (cd_student === false) {
-      return response.status(401).json({
-        message: 'Token invalid',
-      })
-    }
 
     const {
       name,
