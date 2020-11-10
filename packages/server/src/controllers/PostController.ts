@@ -107,24 +107,36 @@ export default class PostController {
       subject
     };
 
-    try {
-      await getConnection()
-        .createQueryBuilder()
-        .update(Post)
-        .set(post)
-        .where('id = :id', { id: postId })
-        .andWhere('studentId = :studentId', { studentId: student })
-        .execute();
+    const verification = await getConnection().getRepository(Post)
+      .createQueryBuilder('post')
+      .where('id = :postId', { postId })
+      .andWhere('studentId = :student', {student})
+      .getOne();
 
-      return response.status(200).send({
-        succes: `Post with id ${postId} has been successfully updated`,
-        data: post
-      });
-    } catch (err) {
-      console.log(err);
+    if (verification) {
+      try {
+        await getConnection()
+          .createQueryBuilder()
+          .update(Post)
+          .set(post)
+          .where('id = :id', { id: postId })
+          .andWhere('studentId = :studentId', { studentId: student })
+          .execute();
+
+        return response.status(200).send({
+          succes: `Post with id ${postId} has been successfully updated`,
+          data: post
+        });
+      } catch (err) {
+        console.log(err);
+        return response.status(400).send({
+          error: 'Failed to update post',
+          message: err.sqlMessage,
+        });
+      }
+    } else {
       return response.status(400).send({
-        error: 'Failed to update post',
-        message: err.sqlMessage,
+        error: 'Failed to update post, you are not allowed to do this action'
       });
     }
   }
