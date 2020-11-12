@@ -43,6 +43,25 @@ export default class ResponseController {
       });
     }
   };
+  async index(request: Request, response: Response): Promise<Response> {
+    const {postId} = request.params;
+
+    try {
+      const responses = await getConnection()
+        .getRepository(ResponseClass)
+        .createQueryBuilder('response')
+        .where('postId = :postId', {postId})
+        .getMany();
+
+      return response.status(200).send(responses)
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send({
+        error: 'Failed to list Responses',
+        message: err.sqlMessage,
+      });
+    }
+  }
   async delete(request: Request, response: Response): Promise<Response> {
     const { cd_response } = request.params;
 

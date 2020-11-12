@@ -40,6 +40,7 @@ routes.put('/post/:postId', auth.auth, postControlller.update);
 routes.delete('/post/:postId', auth.auth, postControlller.delete);
 
 routes.post('/response', auth.auth, responseController.create);
+routes.get('/response/:postId', responseController.index);
 routes.delete('/response/:cd_response', auth.auth, responseController.delete);
 
 routes.post('/subject', subjectController.create);
