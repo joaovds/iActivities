@@ -45,9 +45,7 @@ export default class PostController {
     }
   };
   async index(request: Request, response: Response): Promise<Response> {
-    const authHeader = request.headers.authorization;
-
-    const student = getIdFromToken(authHeader);
+    const {student} = request.params
 
     try {
       const findAllPosts = await getConnection()
@@ -66,17 +64,13 @@ export default class PostController {
     }
   }
   async show(request: Request, response: Response): Promise<Response> {
-    const authHeader = request.headers.authorization;
     const { postId } = request.params;
-
-    const student = getIdFromToken(authHeader);
 
     try {
       const findPost = await getConnection()
         .getRepository(Post)
         .createQueryBuilder('post')
         .where('id = :postId', { postId })
-        .andWhere('studentId = :student', {student})
         .getOne();
 
       return response.status(200).send({ findPost });
