@@ -18,7 +18,7 @@ export default class TeacherController {
 
     if (teacher.length === 1) {
       if (password === teacher[0].password) {
-        const token = jwt.sign({ id: teacher[0].id }, process.env.APP_SECRET, {
+        const token = jwt.sign({ id: teacher[0].id, isTeacher: true }, process.env.APP_SECRET, {
           expiresIn: '1d'
         });
         const data = {

@@ -19,7 +19,7 @@ export default class StudentController {
 
     if (student.length === 1) {
       if (password === student[0].password) {
-        const token = jwt.sign({ id: student[0].id }, process.env.APP_SECRET, {
+        const token = jwt.sign({ id: student[0].id, isTeacher: false }, process.env.APP_SECRET, {
           expiresIn: '1d'
         });
         const data = {
